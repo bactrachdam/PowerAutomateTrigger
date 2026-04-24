@@ -1,6 +1,7 @@
 name: SharePoint File Created
 
 on:
+  workflow_dispatch:
   repository_dispatch:
     types: [sharepoint-file-created]
 
