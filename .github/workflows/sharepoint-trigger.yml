@@ -5,15 +5,19 @@ on:
   repository_dispatch:
     types: [sharepoint-file-created]
 
+env:
+  WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
+
 jobs:
   send-webhook:
     runs-on: ubuntu-latest
     steps:
       - name: Send webhook
         run: |
-          curl -X POST https://webhook.site/0cbb7a4a-33e1-470e-af13-2e78bdaf3215 \
+          curl -X POST $WEBHOOK_URL \
             -H "Content-Type: application/json" \
             -d '{
+              "event": "file-created",
               "fileName": "${{ github.event.client_payload.fileName }}",
               "fileNameWithExtension": "${{ github.event.client_payload.fileNameWithExtension }}",
               "fileUrl": "${{ github.event.client_payload.fileUrl }}",
@@ -21,5 +25,7 @@ jobs:
               "driveId": "${{ github.event.client_payload.driveId }}",
               "driveItemId": "${{ github.event.client_payload.driveItemId }}",
               "siteUrl": "${{ github.event.client_payload.siteUrl }}",
-              "createdBy": "${{ github.event.client_payload.createdBy }}"
+              "createdBy": "${{ github.event.client_payload.createdBy }}",
+              "eTag": "${{ github.event.client_payload.eTag }}",
+              "modified": "${{ github.event.client_payload.modified }}"
             }'
