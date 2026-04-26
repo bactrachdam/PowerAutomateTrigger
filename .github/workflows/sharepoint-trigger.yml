@@ -6,7 +6,7 @@ on:
     types: [sharepoint-file-created]
 
 env:
-  WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
+  WEBHOOK_URL: ${{ vars.WEBHOOK_URL }}
 
 jobs:
   send-webhook:
